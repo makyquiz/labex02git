@@ -1,10 +1,10 @@
 // App.jsx
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
-import Login from './components/Login';
-import Home from './components/Home';
-import About from './components/About';
-import Contact from './components/Contact';
+import Login from './Login';
+import Home from './Home';
+import About from './About';
+import Contact from './Contact';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
