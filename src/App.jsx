@@ -1,54 +1,57 @@
 // App.jsx
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
-import Login from './Login';
+import "./App.css";
+import "./index.css";
 import Home from './Home';
-import About from './About';
-import Contact from './Contact';
+import ProductList from './ProductList';
+import Cart from './Cart'
+import ProductDetails from './ProductDetails';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <Router>
       <div className="p-4">
         <nav className="mb-4 space-x-4">
-          {isAuthenticated && (
             <>
               <Link to="/home">Home</Link>
-              <Link to="/about">About Us</Link>
-              <Link to="/contact">Contact Us</Link>
-              <button onClick={() => setIsAuthenticated(false)}>Logout</button>
+              <>      </>
+              <Link to="/productlist">Product List</Link>
+              <>      </>
+              <Link to="/cart">Cart</Link>
             </>
-          )}
         </nav>
         <Routes>
           <Route
             path="/"
             element={
-              isAuthenticated ? (
+
                 <Navigate to="/home" />
-              ) : (
-                <Login setIsAuthenticated={setIsAuthenticated} />
-              )
             }
           />
           <Route
             path="/home"
             element={
-              isAuthenticated ? <Home /> : <Navigate to="/" />
+              <Home />
             }
           />
           <Route
-            path="/about"
+            path="/productlist"
             element={
-              isAuthenticated ? <About /> : <Navigate to="/" />
+              <ProductList />
             }
           />
           <Route
-            path="/contact"
+            path="/cart"
             element={
-              isAuthenticated ? <Contact /> : <Navigate to="/" />
+              <Cart />
+            }
+          />
+          <Route
+            path="/productdetails"
+            element={
+              <ProductDetails />
             }
           />
         </Routes>
