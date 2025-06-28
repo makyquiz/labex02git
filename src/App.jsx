@@ -1,19 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Title from './Title'
-import NavBar from './NavBar';
-import Contents from './Contents';
+// src/App.js
+import React from 'react';
+import { ThemeProvider } from './ThemeContext';
+import { AuthProvider } from './AuthContext';
+import Header from './Header';
+import Content from './Content';
+import './App.css';
 
 function App() {
-  return (
-    <>
-      <Title title="Lorem Ipsum" />
-      <NavBar />
-      <Contents />
-    </>
-  );
+    return (
+        <ThemeProvider>
+            <AuthProvider>
+                <div className="App">
+                    <Header />
+                    <Content />
+                </div>
+            </AuthProvider>
+        </ThemeProvider>
+    );
 }
 
-export default App
+export default App;
