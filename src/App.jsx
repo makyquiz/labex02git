@@ -1,22 +1,42 @@
-// src/App.js
-import React from 'react';
-import { ThemeProvider } from './ThemeContext';
-import { AuthProvider } from './AuthContext';
-import Header from './Header';
-import Content from './Content';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './AuthContext';
+import LoginPage from './LoginPage';
+import DashboardPage from './DashboardPage';
 import './App.css';
 
+export const usersRef = { current: [] };
+
+function ProtectedRoute({ children }) {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/" />;
+}
+
 function App() {
-    return (
-        <ThemeProvider>
-            <AuthProvider>
-                <div className="App">
-                    <Header />
-                    <Content />
-                </div>
-            </AuthProvider>
-        </ThemeProvider>
-    );
+  useEffect(() => {
+    fetch('https://reqres.in/api/users')
+      .then(res => res.json())
+      .then(data => {
+        usersRef.current = data.data;
+      });
+  }, []);
+
+  return (
+    <AuthProvider>
+      <div className="container">
+        <Router>
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </Router>
+      </div>
+    </AuthProvider>
+  );
 }
 
 export default App;

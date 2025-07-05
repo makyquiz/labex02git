@@ -1,54 +1,46 @@
-// src/UserList.js
-import React, { useState, useEffect, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { AuthContext } from './AuthContext';
+import UserCard from './UserCard';
+import { usersRef } from './App';
 
-const UserList = () => {
-    const [users, setUsers] = useState([]);
-    const [count, setCount] = useState(0);
-    const [loading, setLoading] = useState(true);
-    const { isAuthenticated } = useContext(AuthContext);
+export default function UserList({ setEditingUser }) {
+  const { isAuthenticated } = useContext(AuthContext);
+  const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if (isAuthenticated){
-            // Fetch data from the API
-            fetch('https://reqres.in/api/users')
-                .then(response => response.json())
-                .then(data => {
-                    setUsers(data.data);
-                    setLoading(false);
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                    setLoading(false);
-                });
-        }else{
-            setUsers([]);
-        }
-        console.log(isAuthenticated)
-        console.log(count)
-    }, [isAuthenticated]); // Empty dependency array means this effect runs once after the initial render
-
-    if (loading) {
-        return <p>Loading...</p>;
+  useEffect(() => {
+    if (isAuthenticated) {
+      setLoading(true);
+      fetch('https://reqres.in/api/users')
+        .then(response => response.json())
+        .then(data => {
+          usersRef.current = data.data;
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          setLoading(false);
+        });
+    } else {
+      usersRef.current = [];
     }
+    console.log(isAuthenticated);
+    console.log(count);
+  }, [isAuthenticated]);
 
-    return (
-        <div>
-            <h1>User List</h1>
-            <button onClick={() => setCount(count+1)}>
-                Count {count}
-            </button>
-            <ul>
-                {users.map(user => (
-                    <li key={user.id}>
-                        <img src={user.avatar} alt={`${user.first_name} ${user.last_name}`} />
-                        <p>{user.first_name} {user.last_name}</p>
-                        <p>{user.email}</p>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-};
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
-export default UserList;
+  return (
+    <div>
+      <h1>User List</h1>
+      <button onClick={() => setCount(count + 1)}>Count {count}</button>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {usersRef.current.map(user => (
+          <UserCard key={user.id} user={user} setEditingUser={setEditingUser} />
+        ))}
+      </div>
+    </div>
+  );
+}
