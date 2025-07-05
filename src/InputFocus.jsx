@@ -1,4 +1,3 @@
-
 // src/InputFocus.js
 import React, {useRef, useState} from 'react';
 
