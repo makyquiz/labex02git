@@ -51,11 +51,14 @@ export default function Home() {
           <h3>{article.title}</h3>
           <p>Written by {article.author}</p>
           <Link to={`/articles/${article.id}`}>Read More...</Link>
+          <p></p>
+          <Link to={`/edit/${article.id}`}>Update</Link>
           <img 
             className="icon"
             onClick={() => handleDelete(article.id)}
             src={DeleteIcon} alt="delete icon" 
           />
+
         </div>
       ))}
     </div>
