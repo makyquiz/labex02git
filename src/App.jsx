@@ -1,4 +1,3 @@
-// src/App.js
 import './App.css';
 import { BrowserRouter, Route, NavLink, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';

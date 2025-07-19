@@ -1,4 +1,3 @@
-// src/pages/EditArticle.js
 import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
